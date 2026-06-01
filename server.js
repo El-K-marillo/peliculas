@@ -3,8 +3,10 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { Pelicula, Usuario } from './db.js'; 
 import { verificarToken, SECRET_KEY } from './auth.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const port = 3000
+const port = process.env.PORT || 3000; // Render asigna un puerto dinámico
 const app = express()
 
 app.use(express.json())

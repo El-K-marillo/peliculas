@@ -1,11 +1,27 @@
 import { Sequelize, DataTypes } from "sequelize";
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
 
-const db = new Sequelize({
-    dialect: 'sqlite',
-    storage: 'db.sqlite',
-    logging: false
-});
+dotenv.config();
+
+// Si existe DATABASE_URL (en Render), usa Postgres. Si no, usa SQLite local.
+const db = process.env.DATABASE_URL 
+    ? new Sequelize(process.env.DATABASE_URL, {
+        dialect: 'postgres',
+        protocol: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false // Crucial para que Render no rechace la conexión
+            }
+        },
+        logging: false
+      })
+    : new Sequelize({
+        dialect: 'sqlite',
+        storage: 'db.sqlite',
+        logging: false
+      });
 
 // Modelo de Película
 const Pelicula = db.define('Pelicula', {
