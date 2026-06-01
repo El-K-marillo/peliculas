@@ -12,7 +12,9 @@ const app = express()
 app.use(express.json())
 
 // Endpoints
-
+app.get('/', (req, res) => {
+    res.send({ mensaje: '¡Servidor funcionando correctamente!' });
+});
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
